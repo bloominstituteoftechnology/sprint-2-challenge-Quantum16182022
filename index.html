@@ -6,33 +6,127 @@
   <script id="challenge">
     // 👉 CHALLENGE 1
     function profileActivation(profile, reason) {
-
+      if (profile.active) {
+    // If no reason is provided, return "confirm status manually"
+    if (!reason) {
+      return "confirm status manually";
     }
+
+    // Set the profile to inactive and assign the reason
+    profile.active = false;
+    profile.reason = reason;
+  } else {
+    // If the profile is inactive, set it to active and remove the reason
+    profile.active = true;
+    delete profile.reason;
+  }
+
+  // Return the updated profile
+  return profile;
+}
+
+
+    
 
     // 👉 CHALLENGE 2
     function mineSweeper(grid, x, y) {
+  // First, let's handle the invalid coordinates condition
+  if (x < 1 || x > 3 || y < 1 || y > 3) {
+    return "invalid coordinates";
+  }
 
-    }
+  // As the grid is 0-indexed, we need to adjust the coordinates
+  let adjustedX = x - 1;
+  let adjustedY = y - 1;
+  
+  // Check the grid value at the given coordinates
+  let cell = grid[adjustedY][adjustedX];
+
+  // Now, we determine what to return based on the cell's value
+  if (cell === "🟥") {
+    return "🟥 💀";
+  } else if (cell === "🟦") {
+    return "🟦 🥳";
+  }
+}
 
     // 👉 CHALLENGE 3
     function booleanize(obj) {
-
+  for (let key in obj) {
+    if (key.length > 9) {
+      return "shorten all prop names to 9 chars or less";
     }
+    
+    if (obj[key] === 0) {
+      obj[key] = false;
+    } else if (obj[key] === 1) {
+      obj[key] = true;
+    } else if (obj[key] === null) {
+      delete obj[key];
+    }
+  }
+  
+  return obj;
+}
+    
 
     // 👉 CHALLENGE 4
     function scrub(text, forbidden) {
+  if (!text || !forbidden.length) {
+    return text;
+  }
 
+  let words = text.split(' ');
+
+  let scrubbedWords = words.map(word => {
+    if (forbidden.includes(word)) {
+      return 'x'.repeat(word.length);
+    } else {
+      return word;
     }
+  });
+
+  return scrubbedWords.join(' ');
+}
+    
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
-    function normalizePhoneNumber(num) {
+  
 
+    function normalizePhoneNumber(num) {
+  let template = "(XXX) XXX-XXXX".split('');
+
+  for (let i = template.length - 1; i >= 0; i--) {
+    if (template[i] === 'X') {
+      template[i] = num[num.length - 1];
+      num = num.slice(0, -1);
     }
+  }
+
+  return "<tel:" + num + "|" + template.join('') + ">";
+}
+
+    
+  
 
     // 👉 CHALLENGE 6 (bonus, NOT graded)
     function diceRolls() {
+  let totalRolls = 0;
+  let consecutiveSixes = 0;
 
+  while (true) {
+    let roll = Math.floor(Math.random() * 6) + 1;
+    totalRolls++;
+
+    if (roll === 6) {
+      consecutiveSixes++;
+    } else {
+      consecutiveSixes = 0;
     }
+  }
+}
+    
+   
 
     // 🧪 DO NOT make any changes below this line ===================
     globalThis.challengeVersion = 1
